@@ -1,7 +1,12 @@
 import 'package:firebase/pages/home.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-main() => runApp(MyApp());
+main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
