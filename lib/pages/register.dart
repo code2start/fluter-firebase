@@ -1,3 +1,5 @@
+import 'package:firebase/pages/home.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Register extends StatefulWidget {
@@ -7,6 +9,7 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   String _name, _email, _password;
+  FirebaseAuth instance = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +55,28 @@ class _RegisterState extends State<Register> {
               SizedBox(
                 height: 10,
               ),
-              RaisedButton(child: Text('Register'), onPressed: () {}),
+              RaisedButton(
+                  child: Text('Register'),
+                  onPressed: () async {
+                    try {
+                      UserCredential credential =
+                          await instance.createUserWithEmailAndPassword(
+                              email: this._email, password: this._password);
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Home(),
+                        ),
+                      );
+                    } on FirebaseAuthException catch (e) {
+                      if (e.code == 'weak-password') {
+                        //show snackBar
+                      } else if (e.code == 'email-already-in-use') {
+                        //show snackBarf
+                      }
+                      //print('exception');
+                    }
+                  }),
               SizedBox(
                 height: 10,
               )
