@@ -1,4 +1,6 @@
+import 'package:firebase/pages/home.dart';
 import 'package:firebase/pages/register.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Login extends StatefulWidget {
@@ -8,6 +10,7 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   String _email, _password;
+  FirebaseAuth instance = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +45,27 @@ class _LoginState extends State<Login> {
               SizedBox(
                 height: 10,
               ),
-              RaisedButton(child: Text('Login'), onPressed: () {}),
+              RaisedButton(
+                  child: Text('Login'),
+                  onPressed: () async {
+                    try {
+                      UserCredential credential =
+                          await instance.signInWithEmailAndPassword(
+                              email: _email, password: _password);
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Home(),
+                        ),
+                      );
+                    } on FirebaseAuthException catch (e) {
+                      if (e.code == 'user-not-found') {
+                        //show alert('your message')
+                      } else if (e.code == 'wrong-password') {
+                        //show alert or snackbar('your message)
+                      }
+                    }
+                  }),
               FlatButton(
                 onPressed: () {
                   Navigator.push(
