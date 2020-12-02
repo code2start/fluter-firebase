@@ -62,6 +62,7 @@ class _RegisterState extends State<Register> {
                       UserCredential credential =
                           await instance.createUserWithEmailAndPassword(
                               email: this._email, password: this._password);
+
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(

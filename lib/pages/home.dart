@@ -28,6 +28,13 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Home'),
+        actions: [
+          IconButton(
+              icon: Icon(Icons.logout),
+              onPressed: () {
+                instance.signOut();
+              }),
+        ],
       ),
       body: Center(
         child: Text('Home Screen'),
