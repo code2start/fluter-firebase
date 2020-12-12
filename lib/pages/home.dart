@@ -12,16 +12,6 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    instance.authStateChanges().listen((User user) {
-      if (user == null) {
-        //print('no user');
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => Login()));
-      } else {
-        //print('there is a user');
-
-      }
-    });
   }
 
   @override
