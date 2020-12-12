@@ -11,10 +11,11 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   String _email, _password;
   FirebaseAuth instance = FirebaseAuth.instance;
-
+  var loginKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: loginKey,
       appBar: AppBar(
         title: Text('Login'),
       ),
@@ -59,11 +60,21 @@ class _LoginState extends State<Login> {
                         ),
                       );
                     } on FirebaseAuthException catch (e) {
-                      if (e.code == 'user-not-found') {
-                        //show alert('your message')
-                      } else if (e.code == 'wrong-password') {
-                        //show alert or snackbar('your message)
+                      if (e.code == 'invalid-email') {
+                        loginKey.currentState.showSnackBar(
+                            SnackBar(content: Text('Invalid Email')));
+                        print('Invalid email');
                       }
+                      if (e.code == 'user-not-found') {
+                        loginKey.currentState.showSnackBar(
+                            SnackBar(content: Text('User not found')));
+                        print('Hi, User not found');
+                      } else if (e.code == 'wrong-password') {
+                        loginKey.currentState.showSnackBar(
+                            SnackBar(content: Text('Wrong Password')));
+                      }
+                    } catch (e) {
+                      print(e.code);
                     }
                   }),
               FlatButton(
