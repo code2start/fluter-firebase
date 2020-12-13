@@ -66,7 +66,7 @@ class _RegisterState extends State<Register> {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => Home(),
+                          builder: (context) => null,
                         ),
                       );
                     } on FirebaseAuthException catch (e) {

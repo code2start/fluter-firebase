@@ -1,21 +1,16 @@
 import 'package:firebase/pages/login.dart';
+import 'package:firebase/provider/auth_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class Home extends StatefulWidget {
-  @override
-  _HomeState createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
-  FirebaseAuth instance = FirebaseAuth.instance; //server auth db
-  @override
-  void initState() {
-    super.initState();
-  }
+class Home extends StatelessWidget {
+  final User user;
+  Home(this.user);
 
   @override
   Widget build(BuildContext context) {
+    var prov = Provider.of<AuthProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Home'),
@@ -23,12 +18,14 @@ class _HomeState extends State<Home> {
           IconButton(
               icon: Icon(Icons.logout),
               onPressed: () {
-                instance.signOut();
-              }),
+                prov.logout();
+                Navigator.pushReplacement(
+                    context, MaterialPageRoute(builder: (context) => Login()));
+              })
         ],
       ),
       body: Center(
-        child: Text('Home Screen'),
+        child: Text(prov.user.email),
       ),
     );
   }

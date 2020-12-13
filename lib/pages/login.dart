@@ -1,3 +1,4 @@
+import 'package:firebase/pages/home.dart';
 import 'package:firebase/pages/register.dart';
 import 'package:firebase/provider/auth_provider.dart';
 
@@ -53,6 +54,13 @@ class _LoginState extends State<Login> {
                     if (!await prov.login(_email, _password)) {
                       loginKey.currentState.showSnackBar(
                           SnackBar(content: Text('Un valid login')));
+                    } else {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Home(prov.user),
+                        ),
+                      );
                     }
                   }),
               FlatButton(
