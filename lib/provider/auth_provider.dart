@@ -26,9 +26,12 @@ class AuthProvider with ChangeNotifier {
 
   Future<bool> login(String email, String password) async {
     try {
+      _authStatus = AuthStatus.authentecating;
+      notifyListeners();
+
       UserCredential credential = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
-      _authStatus = AuthStatus.authentecating;
+      _authStatus = AuthStatus.authenticated;
       notifyListeners();
       return true;
     } on FirebaseAuthException catch (e) {
@@ -42,6 +45,7 @@ class AuthProvider with ChangeNotifier {
       } else if (e.code == 'wrong-password') {
         errorMessage = "Your password is not correct";
       }
+      _authStatus = AuthStatus.unAuthenticated;
       notifyListeners();
       return false;
     } catch (e) {

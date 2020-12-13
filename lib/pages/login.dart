@@ -49,7 +49,13 @@ class _LoginState extends State<Login> {
                 height: 10,
               ),
               RaisedButton(
-                  child: Text('Login'),
+                  child: Column(
+                    children: [
+                      prov.authStatus == AuthStatus.authentecating
+                          ? CircularProgressIndicator()
+                          : Text('Login'),
+                    ],
+                  ),
                   onPressed: () async {
                     if (!await prov.login(_email, _password)) {
                       loginKey.currentState.showSnackBar(
