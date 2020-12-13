@@ -6,7 +6,7 @@ enum AuthStatus { unAuthenticated, authentecating, authenticated }
 class AuthProvider with ChangeNotifier {
   FirebaseAuth _auth;
   User _user;
-  AuthStatus _authStatus;
+  AuthStatus _authStatus = AuthStatus.unAuthenticated;
   String errorMessage;
 
   AuthProvider() {
@@ -42,6 +42,8 @@ class AuthProvider with ChangeNotifier {
       } else if (e.code == 'wrong-password') {
         errorMessage = "Your password is not correct";
       }
+      notifyListeners();
+      return false;
     } catch (e) {
       print(e.code);
     }

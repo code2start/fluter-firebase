@@ -53,7 +53,7 @@ class _LoginState extends State<Login> {
                   onPressed: () async {
                     if (!await prov.login(_email, _password)) {
                       loginKey.currentState.showSnackBar(
-                          SnackBar(content: Text('Un valid login')));
+                          SnackBar(content: Text(prov.errorMessage)));
                     } else {
                       Navigator.pushReplacement(
                         context,
